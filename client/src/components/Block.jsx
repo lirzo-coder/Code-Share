@@ -4,7 +4,7 @@ import { ClipLoader } from "react-spinners";
 import Highlight from "react-highlight";
 import "../../node_modules/highlight.js/styles/dark.css";
 import { io } from "socket.io-client";
-const socket = io("http://localhost:3001");
+const socket = io("/");
 
 const Block = () => {
     const [code, setCode] = useState();
