@@ -35,6 +35,8 @@ const Block = () => {
 
     const onChange = (msg) => {
         const msgJson = JSON.parse(msg);
+        
+        // react to received message only if in mentor mode and in the same block
         if (msgJson.id === id && readOnly) {
             if (msgJson.content) setEditedCode(msgJson.content);
             else setEditedCode(code.content);
@@ -67,6 +69,8 @@ const Block = () => {
         };
     }, [readOnly]);
 
+    // to create illusion of editable highlighted block, we render a textarea.
+    // as well as highlight block, and switch between them based on user actions
     return (
         <div className={style.center}>
             {code && (
