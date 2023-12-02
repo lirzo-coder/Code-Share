@@ -71,7 +71,7 @@
     "start": "node server/index.js",
     "server": "node server/index.js",
     "client": "npm run start --prefix client",
-    "build": "cd client && npm install && CI=false npm run build"
+    "build": "cd server && npm install && cd ../client && npm install && CI=false npm run build"
   },
   "keywords": [],
   "author": "",
