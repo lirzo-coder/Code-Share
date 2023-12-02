@@ -46,6 +46,7 @@ io.on("connection", (socket) => {
     });
 });
 
+app.use(express.static(path.resolve(__dirname, '../client/build')));
 app.get("/blocks", blocksController.getBlocks);
 app.get("/blocks/:id", blocksController.getBlockById);
 
