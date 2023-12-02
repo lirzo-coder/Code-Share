@@ -4,6 +4,7 @@ const path = require('path');
 const http = require("http");
 const server = http.createServer(app);
 const io = require("socket.io")(server, {
+    // allow client server connection on development environment
     cors: {
         origin: "http://localhost:3000",
         methods: ["GET", "POST"],
@@ -15,6 +16,9 @@ const blocksManager = require("./managers/blocksManager");
 
 const PORT = process.env.PORT || 3001;
 
+// on connection if no readonly id set - set the new socket.
+// if already set - the new socket will have edit permission.
+// on disconnect, if disconnect id hold the readonly id, release it.
 io.on("connection", (socket) => {
     console.log("a user connected");
     connectionsManager.addConnection(socket.id);
@@ -32,6 +36,8 @@ io.on("connection", (socket) => {
         }
         console.log(connectionsManager.connectionsCount());
     });
+
+    //if content received broadcast this content, else - broadcast block original content.
     socket.on("code-change", (msg) => {
         console.log("message: " + msg);
         const json = JSON.parse(msg);
@@ -47,6 +53,7 @@ io.on("connection", (socket) => {
     });
 });
 
+// expose react production build files on prod environment.
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 app.get("/blocks", blocksController.getBlocks);
 app.get("/blocks/:id", blocksController.getBlockById);
