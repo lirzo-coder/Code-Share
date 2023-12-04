@@ -50,10 +50,14 @@ io.on("connection", (socket) => {
     });
 });
 
-// expose react production build files on prod environment.
-app.use(express.static(path.resolve(__dirname, "../client/build")));
 app.get("/blocks", blocksController.getBlocks);
 app.get("/blocks/:id", blocksController.getBlockById);
+
+// expose react production build files on prod environment.
+app.use(express.static(path.resolve(__dirname, "../client/build")));
+app.get("*", (req, res) =>
+    res.sendFile(path.resolve("client", "build", "index.html"))
+);
 
 server.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
